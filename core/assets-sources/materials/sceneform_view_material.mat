@@ -33,8 +33,9 @@ fragment {
         vec2 uv = getUV0();
 
         if (!gl_FrontFacing) {
-          uv.x = 1.0 - uv.x;
+            uv.x = 1.0 - uv.x;
         }
+
 
         // Set offsetUv if we want to invert around an axis.
         // In front facing camera, set offsetUv.x to 1 and offsetUv.y to 0.

@@ -70,6 +70,7 @@ public class ViewRenderable extends Renderable {
   private ViewSizer viewSizer;
   private VerticalAlignment verticalAlignment = VerticalAlignment.BOTTOM;
   private HorizontalAlignment horizontalAlignment = HorizontalAlignment.CENTER;
+  private Boolean autoFrontFacing;
 
   @Nullable private Renderer renderer;
   private boolean isInitialized;
@@ -112,6 +113,7 @@ public class ViewRenderable extends Renderable {
     viewSizer = builder.viewSizer;
     horizontalAlignment = builder.horizontalAlignment;
     verticalAlignment = builder.verticalAlignment;
+    autoFrontFacing = builder.autoFrontFacing;
     RenderViewToExternalTexture renderView =
         new RenderViewToExternalTexture(view.getContext(), view);
     renderView.addOnViewSizeChangedListener(onViewSizeChangedListener);
@@ -259,6 +261,7 @@ public class ViewRenderable extends Renderable {
     if (renderer != null && renderer.isFrontFaceWindingInverted()) {
       getMaterial().setFloat2("offsetUv", 1, 0);
     }
+    getMaterial().setBoolean("autoFrontFacing", autoFrontFacing);
 
     super.prepareForDraw();
   }
@@ -379,6 +382,7 @@ public class ViewRenderable extends Renderable {
     private ViewSizer viewSizer = new DpToMetersViewSizer(DEFAULT_DP_TO_METERS);
     private VerticalAlignment verticalAlignment = VerticalAlignment.BOTTOM;
     private HorizontalAlignment horizontalAlignment = HorizontalAlignment.CENTER;
+    private Boolean autoFrontFacing;
 
     @SuppressWarnings("AndroidApiChecker")
     private OptionalInt resourceId = OptionalInt.empty();
@@ -429,6 +433,18 @@ public class ViewRenderable extends Renderable {
       this.verticalAlignment = verticalAlignment;
       return this;
     }
+
+    /**
+     * Sets the {@link VerticalAlignment} that controls where the {@link ViewRenderable} is
+     * positioned relative to the {@link com.google.ar.sceneform.Node} it is attached to along the
+     * y-axis. The default is {@link VerticalAlignment#BOTTOM}.
+     */
+    public Builder setAutoFrontFacing(Boolean enable) {
+      this.autoFrontFacing = enable;
+      return this;
+    }
+
+
 
     @Override
     @SuppressWarnings("AndroidApiChecker") // java.util.concurrent.CompletableFuture
